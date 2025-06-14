@@ -1,9 +1,10 @@
 import { Nullish } from '@/types/Nullish'
-import axios from 'axios'
+// import axios from 'axios'
 
 import { JSDOM } from 'jsdom'
 import { extractTitle } from './extractTitle'
 import { nanoid } from 'nanoid'
+import puppeteer from 'puppeteer'
 
 export async function fetchBoard({
   board,
@@ -13,9 +14,15 @@ export async function fetchBoard({
   page?: Nullish<number>
 }) {
   const pageName = `index${page == null ? '' : page}`
-  const { data } = await axios.get(
-    `https://www.ptt.cc/bbs/${board}/${pageName}.html`
-  )
+  // const { data } = await axios.get(
+  //   `https://www.ptt.cc/bbs/${board}/${pageName}.html`
+  // )
+
+  const browser = await puppeteer.launch({ headless: true })
+  const puppeteerPage = await browser.newPage()
+  await puppeteerPage.goto(`https://www.ptt.cc/bbs/${board}/${pageName}.html`)
+  const data = await puppeteerPage.content()
+  await browser.close()
 
   const { document } = new JSDOM(data).window
 

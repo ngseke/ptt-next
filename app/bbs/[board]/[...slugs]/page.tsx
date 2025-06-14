@@ -2,10 +2,10 @@ import { fetchBoard } from '@/modules/fetchBoard'
 import { MetaList } from '@/components/MetaList'
 import { Pagination } from '@/components/Pagination'
 import { fetchPost } from '@/modules/fetchPost'
-import parse from 'html-react-parser'
 import { PostList } from '@/components/PostList'
 import { notFound } from 'next/navigation'
 import { AxiosError } from 'axios'
+import { Article } from '@/components/Article'
 
 export default async function Page({
   params,
@@ -60,9 +60,7 @@ export default async function Page({
             </div>
 
             <div className="p-4 pt-8">
-              <article className="whitespace-pre-wrap">
-                {parse(post.content)}
-              </article>
+              <Article content={post.content} />
             </div>
           </div>
         )}

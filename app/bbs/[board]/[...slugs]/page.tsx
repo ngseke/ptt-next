@@ -23,16 +23,16 @@ export default async function Page({
   const post = await fetchPost({ board, id })
 
   return (
-    <div className="flex max-h-dvh gap-4 overflow-auto p-4">
+    <div className="flex max-h-dvh min-h-dvh gap-4 overflow-auto p-4">
       <div
-        className="sticky top-0 flex w-96 flex-col gap-4 overflow-auto rounded-xl bg-neutral-100 dark:bg-neutral-900"
+        className="sticky top-0 flex w-96 flex-col gap-4 overflow-auto rounded-xl bg-neutral-100 shadow-2xl dark:bg-neutral-900"
         key={page}
       >
         <div className="absolute top-0 left-0 w-full backdrop-blur-lg">
-          <div className="mx-4 my-4 text-xl font-bold">{board}</div>
+          <div className="mx-6 my-4 text-xl font-black">{board}</div>
         </div>
 
-        <PostList board={board} page={page} posts={posts} />
+        <PostList board={board} page={page} posts={posts} id={id} />
 
         <div className="absolute bottom-0 left-0 w-full backdrop-blur-lg">
           <Pagination
@@ -45,8 +45,8 @@ export default async function Page({
       </div>
 
       {post && (
-        <div className="flex-1">
-          <div className="flex w-full flex-col gap-2 rounded-xl bg-neutral-100 px-4 py-3 dark:bg-neutral-900">
+        <div className="relative flex-1">
+          <div className="flex w-full flex-col gap-2 rounded-xl bg-neutral-100 px-4 py-3 backdrop-blur-lg dark:bg-neutral-900">
             <h2 className="text-2xl font-bold">{post?.title}</h2>
             <MetaList
               list={[
@@ -56,7 +56,7 @@ export default async function Page({
             />
           </div>
 
-          <div className="p-4">
+          <div className="p-4 pt-8">
             <article className="whitespace-pre-wrap">
               {parse(post.content)}
             </article>

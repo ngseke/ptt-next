@@ -41,7 +41,7 @@ export function Pagination({
 }) {
   return (
     <div className="flex h-12 rounded-xl">
-      <IconLink href={`/bbs/${board}/1/${id}`}>
+      <IconLink href={`/bbs/${board}/1/${id}`} disabled={!previous}>
         <IconChevronsLeft size={20} stroke={3} />
       </IconLink>
       <IconLink href={`/bbs/${board}/${previous}/${id}`} disabled={!previous}>
@@ -50,7 +50,7 @@ export function Pagination({
       <IconLink href={`/bbs/${board}/${next}/${id}`} disabled={!next}>
         <IconChevronRight size={20} stroke={3} />
       </IconLink>
-      <IconLink href={`/bbs/${board}/index/${id}`}>
+      <IconLink href={`/bbs/${board}/index/${id}`} disabled={!next}>
         <IconChevronsRight size={20} stroke={3} />
       </IconLink>
     </div>

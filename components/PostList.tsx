@@ -7,24 +7,27 @@ import Link from 'next/link'
 import { Badge } from './Badge'
 import { MetaList } from './MetaList'
 import { Score } from './Score'
+import React, { forwardRef } from 'react'
+import { Nullish } from '@/types/Nullish'
 
-export function PostList({
-  board,
-  page,
-  posts,
-}: {
-  board: string
-  page: string
-  posts: Awaited<ReturnType<typeof fetchBoard>>['posts']
-}) {
+export const PostList = forwardRef<
+  HTMLUListElement,
+  {
+    board: string
+    page: string
+    posts: Awaited<ReturnType<typeof fetchBoard>>['posts']
+    id: Nullish<string>
+  }
+>(function PostList({ board, page, posts, id }, ref) {
   return (
-    <ul className="flex flex-1 flex-col gap-4 overflow-auto px-4 py-18">
+    <ul ref={ref} className="flex flex-1 flex-col overflow-auto px-2 py-18">
       {posts?.map((post) => (
         <li key={post.id}>
           <Link
             href={post.isDeleted ? '#' : `/bbs/${board}/${page}/${post.id}`}
-            className={cn({
+            className={cn('flex flex-col gap-0.5 rounded-lg px-4 py-2', {
               'pointer-events-none opacity-30': post.isDeleted,
+              'bg-neutral-200': id === post.id,
             })}
           >
             <div className="font-medium">
@@ -53,4 +56,4 @@ export function PostList({
       ))}
     </ul>
   )
-}
+})

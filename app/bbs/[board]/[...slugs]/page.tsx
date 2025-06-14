@@ -1,13 +1,9 @@
-import { cn } from '@/modules/cn'
 import { fetchBoard } from '@/modules/fetchBoard'
-import Link from 'next/link'
 import { MetaList } from '@/components/MetaList'
-import { Score } from '@/components/Score'
 import { Pagination } from '@/components/Pagination'
-import { IconCornerUpLeft, IconCornerUpRight } from '@tabler/icons-react'
-import { Badge } from '@/components/Badge'
 import { fetchPost } from '@/modules/fetchPost'
 import parse from 'html-react-parser'
+import { PostList } from '@/components/PostList'
 
 export default async function Page({
   params,
@@ -36,42 +32,7 @@ export default async function Page({
           <div className="mx-4 my-4 text-xl font-bold">{board}</div>
         </div>
 
-        <ul className="flex flex-1 flex-col gap-4 overflow-auto px-4 py-18">
-          {posts.map((post) => (
-            <li key={post.id}>
-              <Link
-                href={post.isDeleted ? '#' : `/bbs/${board}/${page}/${post.id}`}
-                className={cn({
-                  'pointer-events-none opacity-30': post.isDeleted,
-                })}
-              >
-                <div className="font-medium">
-                  {post.isReply && (
-                    <Badge icon={<IconCornerUpLeft size={12} stroke={3} />}>
-                      RE
-                    </Badge>
-                  )}
-                  {post.isForward && (
-                    <Badge icon={<IconCornerUpRight size={12} stroke={3} />}>
-                      FW
-                    </Badge>
-                  )}{' '}
-                  <span>{post.title}</span>
-                </div>
-                <MetaList
-                  list={[
-                    post.category && (
-                      <span key="category">{post.category}</span>
-                    ),
-                    <Score key="score" value={post.score} />,
-                    post.author && <span key="author">{post.author}</span>,
-                    <span key="date">{post.date}</span>,
-                  ]}
-                />
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <PostList board={board} page={page} posts={posts} />
 
         <div className="absolute bottom-0 left-0 w-full backdrop-blur-lg">
           <Pagination

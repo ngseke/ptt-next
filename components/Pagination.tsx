@@ -39,18 +39,22 @@ export function Pagination({
   next: Nullish<number>
   id: Nullish<string>
 }) {
+  function generateUrl(slugs: Nullish<string | number>[]) {
+    return `/bbs/${board}/${slugs.filter(Boolean).join('/')}`
+  }
+
   return (
     <div className="flex h-12 rounded-xl">
-      <IconLink href={`/bbs/${board}/1/${id}`} disabled={!previous}>
+      <IconLink href={generateUrl(['1', id])} disabled={!previous}>
         <IconChevronsLeft size={20} stroke={3} />
       </IconLink>
-      <IconLink href={`/bbs/${board}/${previous}/${id}`} disabled={!previous}>
+      <IconLink href={generateUrl([previous, id])} disabled={!previous}>
         <IconChevronLeft size={20} stroke={3} />
       </IconLink>
-      <IconLink href={`/bbs/${board}/${next}/${id}`} disabled={!next}>
+      <IconLink href={generateUrl([next, id])} disabled={!next}>
         <IconChevronRight size={20} stroke={3} />
       </IconLink>
-      <IconLink href={`/bbs/${board}/index/${id}`} disabled={!next}>
+      <IconLink href={generateUrl(['index', id])} disabled={!next}>
         <IconChevronsRight size={20} stroke={3} />
       </IconLink>
     </div>
